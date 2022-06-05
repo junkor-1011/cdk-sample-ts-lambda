@@ -1,0 +1,14 @@
+version: '3'
+
+services:
+  localstack:
+    image: localstack/localstack
+    ports:
+      - "4566:4566"
+      - "4571:4571"
+      - "4510-4559:4510-4559"
+    environment:
+      - DATA_DIR=/tmp/localstack/data
+      - DEFAULT_REGION=ap-northeast-1
+    volumes:
+      - "${TMPDIR:-./tmp/localstack}:/tmp/localstack"
