@@ -14,6 +14,15 @@ test('Lambda Function: Hello Created', () => {
   const template = Template.fromStack(stack);
 
   template.resourceCountIs('AWS::Lambda::Function', 1);
+
+  template.resourceCountIs('AWS::ApiGateway::RestApi', 1);
+
+  template.resourceCountIs('AWS::ApiGateway::Method', 1);
+
+  template.hasResourceProperties('AWS::ApiGateway::Resource', {
+    PathPart: 'hello',
+  });
+
   //   template.hasResourceProperties('AWS::SQS::Queue', {
   //     VisibilityTimeout: 300
   //   });

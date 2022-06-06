@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
-import { Duration, Stack, StackProps, aws_iam as iam } from 'aws-cdk-lib';
+import { Duration, Stack, StackProps, aws_iam as iam, aws_apigateway as apigateway } from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 import { Runtime } from 'aws-cdk-lib/aws-lambda';
 import { NodejsFunction } from 'aws-cdk-lib/aws-lambda-nodejs';
@@ -30,5 +30,13 @@ export class TestAppStack extends Stack {
       },
       memorySize: 128,
     });
+
+    const helloApi = new apigateway.RestApi(this, 'helloApigateway', {
+      restApiName: `${props.projectName}-apigateway`,
+    });
+
+    const sample = helloApi.root.addResource('hello');
+    const courseSearchIntegration = new apigateway.LambdaIntegration(helloLambda);
+    sample.addMethod('GET', courseSearchIntegration);
   }
 }
