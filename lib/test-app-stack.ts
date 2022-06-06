@@ -17,6 +17,7 @@ export class TestAppStack extends Stack {
     const iamRoleForLambda = new iam.Role(this, 'iamRoleForLambda', {
       roleName: `${props.projectName}-lambda-role`,
       assumedBy: new iam.ServicePrincipal('lambda.amazonaws.com'),
+      managedPolicies: [iam.ManagedPolicy.fromAwsManagedPolicyName('service-role/AWSLambdaBasicExecutionRole')],
     });
 
     const helloLambda = new NodejsFunction(this, 'Hello', {
