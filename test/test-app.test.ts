@@ -22,6 +22,9 @@ test('Lambda Function: Hello Created', () => {
   template.hasResourceProperties('AWS::ApiGateway::Resource', {
     PathPart: 'hello',
   });
+  // template.hasResourceProperties('AWS::ApiGateway::Resource', {
+  //   PathPart: 'hello-container',
+  // });
 
   //   template.hasResourceProperties('AWS::SQS::Queue', {
   //     VisibilityTimeout: 300

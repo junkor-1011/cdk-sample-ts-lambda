@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
-import { Duration, Stack, StackProps, aws_iam as iam, aws_apigateway as apigateway } from 'aws-cdk-lib';
+import { Duration, Stack, StackProps, aws_iam as iam, aws_apigateway as apigateway, DockerImage } from 'aws-cdk-lib';
 import { Construct } from 'constructs';
-import { Runtime } from 'aws-cdk-lib/aws-lambda';
+import { Runtime, DockerImageFunction, DockerImageCode } from 'aws-cdk-lib/aws-lambda';
 import { NodejsFunction } from 'aws-cdk-lib/aws-lambda-nodejs';
 // import * as sqs from 'aws-cdk-lib/aws-sqs';
 
@@ -31,6 +31,13 @@ export class TestAppStack extends Stack {
       memorySize: 128,
     });
 
+    const helloLambdaContainer = new DockerImageFunction(this, 'HelloContainer', {
+      code: DockerImageCode.fromImageAsset('functions/hello-container'),
+      timeout: Duration.seconds(60),
+      role: iamRoleForLambda,
+      memorySize: 256,
+    });
+
     const helloApi = new apigateway.RestApi(this, 'helloApigateway', {
       restApiName: `${props.projectName}-apigateway`,
     });
@@ -38,5 +45,8 @@ export class TestAppStack extends Stack {
     const sample = helloApi.root.addResource('hello');
     const courseSearchIntegration = new apigateway.LambdaIntegration(helloLambda);
     sample.addMethod('GET', courseSearchIntegration);
+
+    const sampleContainer = helloApi.root.addResource('hello-container');
+    sampleContainer.addMethod('GET', new apigateway.LambdaIntegration(helloLambdaContainer));
   }
 }
