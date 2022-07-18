@@ -1,11 +1,15 @@
-import { Stack, StackProps } from 'aws-cdk-lib';
+import { Stack, StackProps, Stage } from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 import * as codecommit from 'aws-cdk-lib/aws-codecommit';
 import * as pipelines from 'aws-cdk-lib/pipelines';
 
+import { TestAppStack } from '../lib/test-app-stack';
+
 export interface CustomizedProps extends StackProps {
   projectName: string;
 }
+
+const projectName = 'sample-lambda';
 
 export class TestPipelineStack extends Stack {
   constructor(scope: Construct, id: string, props: CustomizedProps) {
@@ -28,6 +32,17 @@ export class TestPipelineStack extends Stack {
           privileged: true,
         },
       },
+    });
+    pipeline.addStage(new ApplicationStage(this, 'Prod'));
+  }
+}
+
+class ApplicationStage extends Stage {
+  constructor(scope: Construct, id: string, props?: StackProps) {
+    super(scope, id, props);
+
+    new TestAppStack(this, 'TestAppStack', {
+      projectName,
     });
   }
 }
