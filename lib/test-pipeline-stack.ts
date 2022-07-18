@@ -23,6 +23,11 @@ export class TestPipelineStack extends Stack {
         input: pipelines.CodePipelineSource.codeCommit(repo, 'main'),
         commands: ['yarn', 'yarn build', 'yarn cdk synth'],
       }),
+      codeBuildDefaults: {
+        buildEnvironment: {
+          privileged: true,
+        },
+      },
     });
   }
 }
