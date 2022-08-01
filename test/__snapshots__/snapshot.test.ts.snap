@@ -593,11 +593,9 @@ Object {
             Object {
               "Action": "sts:AssumeRole",
               "Effect": "Allow",
-              "Resource": Array [
-                Object {
-                  "Fn::Sub": "arn:\${AWS::Partition}:iam::\${AWS::AccountId}:role/cdk-hnb659fds-image-publishing-role-\${AWS::AccountId}-\${AWS::Region}",
-                },
-              ],
+              "Resource": Object {
+                "Fn::Sub": "arn:\${AWS::Partition}:iam::\${AWS::AccountId}:role/cdk-hnb659fds-image-publishing-role-\${AWS::AccountId}-\${AWS::Region}",
+              },
             },
             Object {
               "Action": Array [
@@ -798,11 +796,9 @@ Object {
             Object {
               "Action": "sts:AssumeRole",
               "Effect": "Allow",
-              "Resource": Array [
-                Object {
-                  "Fn::Sub": "arn:\${AWS::Partition}:iam::\${AWS::AccountId}:role/cdk-hnb659fds-file-publishing-role-\${AWS::AccountId}-\${AWS::Region}",
-                },
-              ],
+              "Resource": Object {
+                "Fn::Sub": "arn:\${AWS::Partition}:iam::\${AWS::AccountId}:role/cdk-hnb659fds-file-publishing-role-\${AWS::AccountId}-\${AWS::Region}",
+              },
             },
             Object {
               "Action": Array [
